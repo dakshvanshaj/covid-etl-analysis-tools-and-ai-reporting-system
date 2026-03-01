@@ -1,7 +1,7 @@
-# 🚀 COVID-19 DataOps & AI Early Warning System
+# 🚀 COVID-19 Analysis & AI Early Warning System
 
 ## 📌 Project Overview
-This project implements an end-to-end **DataOps pipeline** to analyze India’s COVID-19 pandemic data. Adopting a **Medallion Architecture**, it combines robust Data Engineering (SQL ETL), Advanced Analytics (Excel/Power BI), and GenAI Automation (n8n) to provide both historical insights and proactive early-warning alerts for public health stakeholders.
+This project implements an end-to-end **Data Analysis** to analyze India’s COVID-19 pandemic data. Adopting a **Medallion Architecture**, it combines robust Data Engineering (SQL ETL), Advanced Analytics (Excel/Power BI), and GenAI Automation (n8n) to provide both historical insights and proactive early-warning alerts for public health stakeholders.
 
 ---
 
