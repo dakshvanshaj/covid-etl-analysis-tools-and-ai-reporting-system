@@ -5,12 +5,15 @@ from sqlalchemy import create_engine
 import time
 import requests
 from dotenv import load_dotenv
+import streamlit.components.v1 as components
 
 # 1. Page Config (Must be first!)
 st.set_page_config(
     page_title="COVID-19 Executive Portal",
     page_icon="images/icons/covid-exclamation-line.svg",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded",
+    
 )
 
 # Load environment variables
@@ -44,20 +47,21 @@ engine = get_sql_engine()
 st.logo("images/logo/logo.png", icon_image="images/icons/covid-exclamation-line.svg")
 
 st.title("COVID-19 Executive Analysis & Alerting Portal")
-st.caption("Integrated ETL Pipeline, Business Intelligence, and AI-Driven Surveillance System")
-
+st.caption("Integrated ETL Pipeline, Business Intelligence, Risk Evaluation Tools and AI-Driven Surveillance System")
+# st.info('Expand sidebar for control panel')
 # --- SIDEBAR ---
 with st.sidebar:
-    st.header("Control Plane")
-    
-    # n8n Link
-    st.markdown("### ⚙️ Automation Engine")
-    st.link_button("Open n8n Workflow", "http://localhost:5678", width="stretch")
-    
+    st.header("Control Panel")
     st.markdown("---")
     
+    # n8n Link
+    st.markdown("### Automation Engine")
+
+    st.link_button("Open n8n Workflow", "http://localhost:5678", width="stretch")
+    
+    st.markdown("### Sync latest data")
     # Manual System Refresh 
-    if st.button("🔄 Trigger Full System Sync", width="stretch"):
+    if st.button("🔄 Trigger ETL Pipeline", width="stretch"):
         with st.spinner("🔄 Re-ingesting & Running Pipeline..."):
             try:
                 # Import classes
@@ -92,23 +96,27 @@ with st.sidebar:
         print(f"Database connection failed: {e}") 
         st.error("Warehouse Offline (Run Sync)")
 
+    st.markdown("---")
+    st.subheader("Connect & Contribute")
+    st.link_button("View on GitHub", "https://github.com/dakshvanshaj/-End-to-End-COVID-19-Data-Analysis-AI-Early-Warning-System", width="stretch")
+    st.link_button("My LinkedIn", "https://www.linkedin.com/in/daksh-vanshaj-9a9650344/", width="stretch")
+
 # --- MAIN INTERFACE ---
-tab1, tab2, tab3, tab4 = st.tabs([ "AI Report","Executive Dashboards", "Exploratory Data (Excel)", "Data Warehouse"])
+tab1, tab2, tab3, tab4 = st.tabs([ "AI Report","BI Executive Dashboard", "Excel Risk Evaluation Tool", "Data Warehouse"])
 
 
 # Tab 1: AI Situation Room
 with tab1:
     st.header("AI Serviellance Report")
-    
+    st.markdown("Prompts and data extraction can be changed in n8n for more **Powerful** custom reports, refer to the documenation for templates")
     col_a, col_b = st.columns([2, 1])
     
     with col_a:
-        st.subheader("Latest Intelligence Briefing")
         try:
             report = pd.read_sql("SELECT report_html, generated_at FROM latest_ai_report ORDER BY generated_at DESC LIMIT 1", engine)
             
             if not report.empty:
-                st.info(f"Report Generated At: {report['generated_at'].dt.tz_localize('UTC').dt.tz_convert('Asia/Kolkata').iloc[0].strftime("%d %b %Y, %I:%M %p")})")
+                st.info(f"Report Generated At: {report['generated_at'].dt.tz_localize('UTC').dt.tz_convert('Asia/Kolkata').iloc[0].strftime("%d %b %Y, %I:%M %p")}")
 
                 raw_html = report['report_html'].iloc[0]
                 combined_html = f'<div class="report-box">{raw_html}</div>'
@@ -125,8 +133,11 @@ with tab1:
         if st.button("Run AI Risk Audit", width="stretch"):
             with st.spinner("Calling n8n Auditor..."):
                 try:
-                    # Standard n8n production URL for the webhook
-                    response = requests.post("http://localhost:5678/webhook/audit-trigger")
+                    # Use the service name 'n8n' for internal container-to-container communication
+                    # but fallback to localhost if running outside Docker
+                    n8n_host = os.getenv("N8N_HOST", "localhost")
+                    response = requests.post(f"http://{n8n_host}:5678/webhook/audit-trigger")
+                    
                     if response.status_code == 200:
                         st.success("Audit Requested! Refreshing in 5s...")
                         time.sleep(5)
@@ -134,10 +145,10 @@ with tab1:
                     else:
                         st.error(f"Webhook Failed: {response.text}")
                 except Exception as e:
-                    st.error(f"Could not reach n8n. Is it running? Error: {e}")
+                    st.error(f"Could not reach n8n internally. Error: {e}")
         
         st.markdown("---")
-        st.subheader("🚩 Active Alert Flags")
+        st.subheader( "Active Alert Flags")
         try:
             alerts = pd.read_sql("SELECT state, weighted_risk_score FROM v_critical_alerts WHERE date = (SELECT MAX(date) FROM v_critical_alerts) LIMIT 10", engine)
             if not alerts.empty:
@@ -162,19 +173,10 @@ with tab1:
 # Tab 2: Power BI Dashboards
 with tab2:
     st.header("BI Intelligence (Power BI)")
-    st.write("Visual trends and deep-dive analytics from the production dashboard.")
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        st.image("images/powerbi_dashboard.png", caption="Historical Case Analysis", width="stretch")
-    with col2:
-        st.image("images/powerbi_dashboard_2.png", caption="Vaccination & Testing Trends", width="stretch")
-    
-    st.markdown("---")
-    st.markdown("#### 📥 Download Original Report")
-    
+    st.write("Clean, interactive dashboard for monitoring key COVID-19 metrics, trends and interactions.")
+
     # Safely handle file download if the file is missing
-    pbix_path = "powerbi/Covid_19_Dashboard.pbix"
+    pbix_path = "powerbi/covid_power_dashboard.pbix"
     if os.path.exists(pbix_path):
         with open(pbix_path, "rb") as f:
             st.download_button(
@@ -187,31 +189,40 @@ with tab2:
     else:
         st.warning(f"File not found: {pbix_path}")
 
+    st.image("images/powerbi_dashboard.png", width="stretch")
+ 
+
+    
 
 
-# Tab 3: Excel EDA
+
+
+# Tab 3: Excel 
 with tab3:
-    st.header("Excel Interactive Dashboard")
-    st.write("Tools for targeted stakholder questions")
-    
-    st.image("images/excel_dashboard.png", caption="Excel Forecasting & EDA", width="stretch")
+    st.header("COVID-19 Risk Evaluation Command Center")
+    st.markdown("Adjust the thresholds in the top left or select a state on the right to interact with the model.")
+    st.info("Download the Dashboard for smooth interaction, this embed is just for preview. Collapse the sidebar for full view")
 
-    st.markdown("---")
-    st.markdown("#### 📥 Download Analysis Workbook")
-    
     # Safely handle file download
-    excel_path = "excel/EDA_Dashboard.xlsx"
+    excel_path = "excel/risk_evaluation_tools.xlsx"
     if os.path.exists(excel_path):
         with open(excel_path, "rb") as f:
             st.download_button(
                 label="Download Excel Dashboard",
                 data=f,
-                file_name="EDA_Dashboard.xlsx",
+                file_name="risk_evaluation_tools.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 width="stretch"
             )
     else:
         st.warning(f"File not found: {excel_path}")
+
+    # Embed the dashboard
+    excel_html = """
+<iframe width="100%" height="637" frameborder="0" scrolling="no" src="https://1drv.ms/x/c/7b0d83a227d1b9b8/IQR1-nVTpvVGSoJFktMde1o8AUKGXutz1I0urstDCWd_UcM?wdAllowInteractivity=False&AllowTyping=True&Item=Dashboard_small&wdHideGridlines=True&wdInConfigurator=True&wdInConfigurator=True"></iframe>    """
+
+    # Render the dashboard
+    components.html(excel_html, height=637)
 
 # Tab 4: Data Warehouse
 with tab4:
