@@ -1,10 +1,10 @@
-# ☁️ Shifting to Cloud & Production Grade
+# Shifting to Cloud & Production Grade
 
 While the current Docker-based setup is perfect for development and local testing, a professional Public Health surveillance system needs a high-availability cloud architecture.
 
 ---
 
-## 🏗️ 1. Architecture Transition (Local vs. Cloud)
+## 1. Architecture Transition (Local vs. Cloud)
 
 | Component | Local (Docker) | Cloud (AWS/GCP/Azure) |
 | :--- | :--- | :--- |
@@ -16,7 +16,7 @@ While the current Docker-based setup is perfect for development and local testin
 
 ---
 
-## 🚀 2. Production-Grade Enhancements
+## 2. Production-Grade Enhancements
 
 ### **A. Serverless Data Ingestion**
 Instead of manually dropping CSVs into a folder, we can use an **S3 Event Trigger**:
@@ -36,7 +36,7 @@ Instead of manually dropping CSVs into a folder, we can use an **S3 Event Trigge
 
 ---
 
-## 🛠️ 3. Handling Big Data (Scalability)
+## 3. Handling Big Data (Scalability)
 
 If the dataset grows from 40k rows to 40 million:
 1.  **Postgres Partitioning**: Partition the `covid_summary_clean` table by `year` or `state` to maintain query speed.
@@ -45,7 +45,7 @@ If the dataset grows from 40k rows to 40 million:
 
 ---
 
-## 📝 4. Deployment Roadmap
+## 4. Deployment Roadmap
 1.  **Phase 1**: Provision a managed PostgreSQL instance.
 2.  **Phase 2**: Containerize and push images to a Private Registry (ECR).
 3.  **Phase 3**: Deploy services using an Orchestrator (Fargate/K8s).

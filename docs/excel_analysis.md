@@ -6,11 +6,13 @@ The COVID-19 Risk Evaluation Center is a dynamic, interactive Excel dashboard de
 Unlike static reports, this tool relies on a calculation engine that updates all visualizations, counts, and metrics automatically when a user alters the input variables.
 
 ---
+![alt text](assets/excel_dashboard_tool.png)
 
 ## 2. The Control Panel (Dynamic Inputs)
 Located in the top-left corner, the Control Panel drives the logic for the entire dashboard. Users define the risk parameters here.
 
 **Inputs:**
+
 * **Positive Rate:** The percentage of total tests returning positive.
 * **Daily New Cases:** The absolute count of new infections.
 * **Case Fatality Rate (CFR):** The percentage of confirmed cases resulting in death.
@@ -25,6 +27,7 @@ Located in the top-left corner, the Control Panel drives the logic for the entir
 The core of the dashboard is the filtered data table at the bottom. It only displays states that have breached the defined thresholds for the selected date.
 
 **The Formula Logic:**
+
 ```excel
 =SORT(FILTER(covid_data, 
   ((covid_data[positive_test_rate] >= [Positivity_Cell]) + 
@@ -36,6 +39,7 @@ The core of the dashboard is the filtered data table at the bottom. It only disp
 ```
 
 **Technical Explanation:**
+
 * The `+` symbols act as logical **OR** operators. A state is flagged if it breaches *any* of the individual thresholds.
 * The `*` symbol acts as a logical **AND** operator. The data must strictly match the selected date.
 * The `SORT` function wraps the entire array, organizing the final list by column 14 (Weighted Risk Score) in descending order (`-1`), ensuring the highest-risk regions remain at the top.
@@ -58,11 +62,13 @@ These summary cards provide an immediate national snapshot based on the selected
 Located on the top right, this tool allows a user to isolate and examine a specific state's performance without disrupting the main Hot Zone table.
 
 **The Formula Logic (2-Criteria XLOOKUP):**
+
 ```excel
 =XLOOKUP(1, (covid_data[state]=[State_Dropdown_Cell]) * (covid_data[date]=[Date_Cell]), covid_data[daily_new_cases], "No Data")
 ```
 
 **Technical Explanation:**
+
 This formula multiplies two arrays together. It searches for the single row in the master data table where the State column matches the user selection AND the Date column matches the Control Panel date, returning the specific requested metric.
 
 ---

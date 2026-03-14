@@ -4,9 +4,12 @@ The system's "Surveillance" and "Human-in-the-Loop" capabilities are powered by 
 
 ---
 
+![alt text](assets/n8n_workfow_v2.png)
+
 ## High-Level Logic Flow
 
 The workflow is divided into two main execution paths:
+
 1.  **The AI Risk Audit**: Pulls data → Asks Gemini → Sends Email → Saves Report.
 2.  **The Feedback Handler**: Receives Link Click → Writes Confirmation to DB.
 
@@ -53,17 +56,21 @@ When a stakeholder clicks a link, n8n extracts the `status`, `state`, and `date`
 To run this blueprint, you must configure two credentials in n8n:
 
 1.  **Postgres Credentials**:
+
     *   Host: `db` (internal Docker name)
     *   Database: `postgres`
     *   User: `postgres`
     *   Password: `password123`
+
 2.  **Google Gemini Credentials**:
+
     *   Requires a **Google AI API Key** from the Google AI Studio.
 
 ---
 
 ## Troubleshooting the "Audit"
 If the audit fails to generate a report:
+
 *   **Check the Postgres Node**: Ensure the app container has finished running the ETL (Gold layer must exist).
 *   **Check Gemini Quotas**: Ensure your API key is active and hasn't hit its free-tier rate limit.
 *   **Inspect n8n Executions**: Use the "Executions" tab in n8n to see exactly which node failed and read the error message.

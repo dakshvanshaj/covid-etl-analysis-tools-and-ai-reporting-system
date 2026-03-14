@@ -9,7 +9,7 @@ This system is **Proactive**: it uses real-time ETL and GenAI to flag emerging r
 
 ---
 
-## 👥 Stakeholders & Users
+## Stakeholders & Users
 
 | Stakeholder Persona | Strategic Need | Core Objective | Project Solution |
 | :--- | :--- | :--- | :--- |

@@ -5,22 +5,17 @@ nav:
   - Home: index.md
   - Business Context: business_context.md
   - Infrastructure & Setup: infrastructure.md
-  - Core Pipeline Scripts:
-      - Master Orchestrator: scripts/main.md
-      - Data Ingestor: scripts/ingestion.md
-      - Executive Portal: scripts/app.md
-      - Container Entrypoint: scripts/entrypoint.md
-  - Data Engineering (SQL):
-      - Medallion Logic: scripts/sql_etl.md
-  - Intelligent Surveillance:
-      - Strategic Prompting: prompts.md
-      - Dynamic Data Extraction: data_extraction.md
-      - Automation Blueprints: automation_blueprints.md
-  - Data Strategy | Pipeline: notebooks_docs/01_data_assessment.ipynb
+  - Intelligence & Automation:
+      - AI Intelligence Setup: ai_intelligence_setup.md
+      - n8n Workflow Logic: n8n_workflow.md
+  - Analysis Tools:
+      - Power BI Analysis: powerbi_analysis.md
+      - Excel Risk Evaluation: excel_analysis.md
   - Production & Cloud: cloud_production.md
 
 theme:
   name: material
+  logo: assets/logo.png
   palette:
     # Palette toggle for light mode
     - scheme: default
@@ -39,7 +34,7 @@ theme:
     repo: fontawesome/brands/github
   features:
     - navigation.tabs
-    - navigation.instant
+    # - navigation.instant  ## turning it on causes mermaid diagrams to not load
 
 plugins:
   - search

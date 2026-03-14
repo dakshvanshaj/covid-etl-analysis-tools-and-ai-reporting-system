@@ -1,10 +1,10 @@
-# 🏗️ Infrastructure: Docker & Orchestration
+# Infrastructure: Docker & Orchestration
 
 The system is fully containerized using **Docker** and **Docker Compose**. This ensures that the environment is identical whether you are running it on a local laptop or a production server.
 
 ---
 
-## 🐋 1. The Shared Environment: `Dockerfile`
+## 1. The Shared Environment: `Dockerfile`
 
 The main application service uses a optimized Python environment to ensure dependency parity and performance.
 
@@ -16,7 +16,7 @@ The main application service uses a optimized Python environment to ensure depen
 
 ---
 
-## 🎼 2. Service Orchestration: `compose.yaml`
+## 2. Service Orchestration: `compose.yaml`
 
 The `compose.yaml` file defines 4 interconnected services. All sensitive credentials are now injected via the `.env` file for security.
 
@@ -29,7 +29,7 @@ The `compose.yaml` file defines 4 interconnected services. All sensitive credent
 
 ---
 
-## 🔑 3. Credential Management (`.env`)
+## 3. Credential Management (`.env`)
 
 The project uses a `.env` file to manage all secrets. **Never commit this file to version control.**
 
@@ -40,7 +40,7 @@ The project uses a `.env` file to manage all secrets. **Never commit this file t
 
 ---
 
-## 💾 4. Data Persistence & Portability
+## 4. Data Persistence & Portability
 
 The system uses named Docker volumes to ensure your data survives container restarts and deletions.
 
@@ -53,7 +53,7 @@ The volumes are configured to be "portable." If you are a new user, Docker will 
 
 ---
 
-## ⚙️ 5. Manual n8n Workflow Setup
+## 5. Manual n8n Workflow Setup
 
 Since n8n stores workflows in its own internal database, you must manually import the logic after the first launch.
 
@@ -69,7 +69,7 @@ Since n8n stores workflows in its own internal database, you must manually impor
 
 ---
 
-## 🚀 6. Useful Commands
+## 6. Useful Commands
 
 *   **Start everything**: `docker-compose up -d`
 *   **View Logs**: `docker-compose logs -f`
