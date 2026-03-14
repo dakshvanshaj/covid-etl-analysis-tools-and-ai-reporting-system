@@ -46,14 +46,26 @@ To meet the risk thresholds formulated above, the system must provide stakeholde
 
 **Output format required**: Excel Interactive Dashboard
 
+### **Risk Evaluation Tool Dashboard Requirements (Excel)**
+To provide surgical auditing capabilities, the Excel dashboard must implement the following features:
+1. **Dynamic Threshold Control**: A centralized panel where users can adjust variables for positivity rates, case counts, and fatality rates to instantly update the risk map.
+2. **Automated Hot Zone Identification**: A calculation engine that filters and sorts states automatically, highlighting only those that breach any of the user-defined medical thresholds.
+3. **National Macro KPIs**: Summary metrics providing a snapshot of the total number of active hot zones and weighted national averages for the selected date.
+4. **State Deep-Dive Profiler**: A lookup system allowing stakeholders to isolate any single state to view its specific infection velocity and vaccination coverage without affecting the main surveillance table.
+5. **Visual Signal Priority**: Use of conditional formatting and data bars to provide immediate visual context on the scale of risk across different regions.
+
 ## BI Dashboard Requirements (Power BI)
 While Excel is used for surgical logic audits and suggestive alerts, the Power BI dashboard acts as the **National Situational Awareness Layer**. It converts the complex Medallion data into a high-level visual narrative for leadership.
 
-### **Primary Visual Objectives**:
-1.  **National Pulse (Executive KPIs)**: High-visibility cards showing `Total Confirmed`, `Active Cases`, `Recovery Rate %`, and `Vaccination Coverage`. This provides an immediate answer to "Where do we stand today?"
-2.  **Outbreak Velocity (Trend Analysis)**: Line charts utilizing **7-Day Moving Averages** to filter out daily reporting noise and reveal the true direction of epidemic waves (Peaking vs. Receding).
-3.  **Geospatial Risk Mapping**: A regional heat-map driven by the `weighted_risk_score`. This allows stakeholders to identify geographic clusters of high-risk states at a single glance.
-4.  **Strategic Correlation (Impact Assessment)**: Scatter plots and bubble charts to evaluate the relationship between `vaccination_rate` and `case_fatality_rate`. This answers the critical question: "Is our vaccination strategy effectively reducing mortality?"
+**Output format required**: Power BI National Situational Awareness Layer
+
+### **National Situational Awareness Dashboard Requirements (Power BI)**
+To convert complex daily data into a strategic executive narrative, the Power BI dashboard must implement the following features:
+1. **Latest-Truth KPI Header**: High-visibility summary cards utilizing absolute latest reporting date logic to provide ground-truth snapshots of Total Confirmed, Active Cases, and Recovery Rates.
+2. **Noise-Filtered Trend Engine**: Advanced DAX-driven line charts employing 7-Day Moving Averages to smooth out administrative reporting lags and reveal the true trajectory of the pandemic.
+3. **Geospatial Risk Prioritization**: A choropleth map utilizing strict, rules-based conditional formatting (Green/Yellow/Red) combined with Top N burden ranking to pinpoint critical hot zones for immediate intervention.
+4. **Intervention Efficacy Analytics**: Interactive scatter plots correlating vaccination rates with case fatality rates (CFR) to visually demonstrate the statistical success of public health counter-measures.
+5. **Unified UX Interactivity**: A Z-pattern layout featuring a global responsive date slicer and bidirectional cross-filtering to allow stakeholders to move seamlessly from national trends to granular state details.
 
 
 ## Requirements & Objectives
