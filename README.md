@@ -2,6 +2,8 @@
 
 An integrated **Data Engineering**, **Analysis Tools** and **Generative AI** automation(n8n) platform designed to convert raw epidemic data into strategic situational awareness. This system automates the journey from messy CSVs to production-grade Postgres tables, risk evaluation tools, BI dashboard and AI driven alerts and reporting.
 
+For a detailed breakdown of strategic goals, stakeholder mapping, and quantifiable performance metrics, refer to the **[Business Context & Impact Guide](docs/business_context.md)**.
+
 ---
 
 ## Quick Start (One-Click Setup)
